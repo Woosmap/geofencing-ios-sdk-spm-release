@@ -1,0 +1,1 @@
+# geofencing-ios-sdk-spm-release
