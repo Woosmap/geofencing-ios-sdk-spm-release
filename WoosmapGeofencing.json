@@ -1,4 +1,5 @@
 {
+	"3.0.0" : "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/3.0.0/WoosmapGeofencing.xcframework.zip?raw=true"
 	"2.0.11" : "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/2.0.11/WoosmapGeofencing.xcframework.zip?raw=true"
   "2.0.10": "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/2.0.10/WoosmapGeofencing.xcframework.zip?raw=true"
 }
