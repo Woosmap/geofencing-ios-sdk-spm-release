@@ -34,7 +34,7 @@ let package = Package(
         .target(
             name: "\(moduleName)dependencies",
             dependencies: [
-                .product(name: "WoosmapGeofencingCore", package: "WoosmapGeofencingCore"),
+                .product(name: "WoosmapGeofencingCore", package: "geofencing-core-ios-sdk"),
                 .product(name: "RealmSwift", package: "realm-cocoa"),
                 .product(name: "Surge", package: "Surge"),
             ],
