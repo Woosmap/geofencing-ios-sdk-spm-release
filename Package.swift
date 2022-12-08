@@ -3,9 +3,9 @@
 
 import PackageDescription
 
-let version = "3.0.6"
+let version = "2.0.11"
 let moduleName = "WoosmapGeofencing"
-let checksum = "621a4368bd8c51e4d8281db71cf99a65793f588c4c30292fbffef49df383f2c8"
+let checksum = "d9b8bed2c30e018254e7b84b1f197a082345133304b6340dfbe5e98f97bb236f"
 
 let package = Package(
     name: moduleName,
@@ -23,8 +23,6 @@ let package = Package(
         )
     ],
     dependencies: [
-        // WoosmapCore
-        .package(url: "https://github.com/Woosmap/geofencing-core-ios-sdk", from: "3.0.0")
         // Surge Package
         .package(url: "https://github.com/Jounce/Surge.git", from: "2.3.0"),
         // Realm
@@ -34,7 +32,6 @@ let package = Package(
         .target(
             name: "\(moduleName)dependencies",
             dependencies: [
-                .product(name: "WoosmapGeofencingCore", package: "WoosmapGeofencingCore"),
                 .product(name: "RealmSwift", package: "realm-cocoa"),
                 .product(name: "Surge", package: "Surge"),
             ],
