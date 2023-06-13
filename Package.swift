@@ -23,8 +23,6 @@ let package = Package(
         )
     ],
     dependencies: [
-        // Surge Package
-        .package(url: "https://github.com/Jounce/Surge.git", from: "2.3.0"),
         // Realm
         .package(url: "https://github.com/realm/realm-cocoa", from: "10.5.1")
     ],
@@ -33,7 +31,6 @@ let package = Package(
             name: "\(moduleName)dependencies",
             dependencies: [
                 .product(name: "RealmSwift", package: "realm-cocoa"),
-                .product(name: "Surge", package: "Surge"),
             ],
             path: "dependencies"
         ),
