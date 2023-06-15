@@ -3,9 +3,9 @@
 
 import PackageDescription
 
-let version = "3.0.15"
+let version = "3.0.16-beta1"
 let moduleName = "WoosmapGeofencing"
-let checksum = "0fdeabbe225562146c8497e1127fe73faccf76eef7cafb7a5848fd437cd29710"
+let checksum = "5e792066f11a5cea50dba861447f13e817b4e7d84eb9758eac69c392c7490986"
 
 let package = Package(
     name: moduleName,
