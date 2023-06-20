@@ -15,12 +15,12 @@ let package = Package(
     products: [
         .library(
             name: moduleName,
-            targets: [moduleName,"\(moduleName)dependencies"]
+            targets: [moduleName]
         ),
-        .library(
-            name: "\(moduleName)dependencies",
-            targets: ["\(moduleName)dependencies"]
-        )
+//        .library(
+//            name: "\(moduleName)dependencies",
+//            targets: ["\(moduleName)dependencies"]
+//        )
     ],
     dependencies: [
         // Realm
