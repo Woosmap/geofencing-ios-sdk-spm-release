@@ -15,6 +15,7 @@ let package = Package(
     products: [
         .library(
             name: moduleName,
+            type: .dynamic,
             targets: [moduleName]
         ),
 //        .library(
