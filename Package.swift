@@ -15,22 +15,18 @@ let package = Package(
     products: [
         .library(
             name: moduleName,
-            targets: [moduleName]
+            targets: [moduleName,"\(moduleName)dependencies"]
         ),
-//        .library(
-//            name: "\(moduleName)dependencies",
-//            targets: ["\(moduleName)dependencies"]
-//        )
     ],
     dependencies: [
         // Realm
-        .package(url: "https://github.com/realm/realm-cocoa", from: "10.5.1")
+        .package(url: "https://github.com/realm/realm-swift", from: "10.5.1")
     ],
     targets: [
         .target(
             name: "\(moduleName)dependencies",
             dependencies: [
-                .product(name: "RealmSwift", package: "realm-cocoa"),
+                .product(name: "RealmSwift", package: "realm-swift"),
             ],
             path: "dependencies"
         ),
