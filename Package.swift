@@ -15,21 +15,10 @@ let package = Package(
     products: [
         .library(
             name: moduleName,
-            targets: [moduleName,"\(moduleName)dependencies"]
+            targets: [moduleName]
         ),
-    ],
-    dependencies: [
-        // Realm
-        .package(url: "https://github.com/realm/realm-swift", from: "10.5.1")
     ],
     targets: [
-        .target(
-            name: "\(moduleName)dependencies",
-            dependencies: [
-                .product(name: "RealmSwift", package: "realm-swift"),
-            ],
-            path: "dependencies"
-        ),
         .binaryTarget(
             name: moduleName,
             url: "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/\(version)/\(moduleName).xcframework.zip",
