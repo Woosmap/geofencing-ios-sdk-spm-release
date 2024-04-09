@@ -1,4 +1,5 @@
 {
+	"4.3.2-beta9" : "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/4.3.2-beta9/WoosmapGeofencing.xcframework.zip?raw=true",
 	"4.3.2-beta8" : "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/4.3.2-beta8/WoosmapGeofencing.xcframework.zip?raw=true",
 	"4.3.2-beta7" : "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/4.3.2-beta7/WoosmapGeofencing.xcframework.zip?raw=true",
 	"4.3.2-beta6" : "https://github.com/Woosmap/geofencing-ios-sdk-spm-release/releases/download/4.3.2-beta6/WoosmapGeofencing.xcframework.zip?raw=true",
