@@ -56,7 +56,7 @@ jobs:
           sed -E -i '' 's/let checksum = ".+"/let checksum = "'"$NEW_CHECKSUM"'"/' Package.swift
 
       - name: Commit and push changes (optional)
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/${{ github.event.repository.default_branch }}'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -64,63 +64,27 @@ jobs:
           git commit -m "Update checksum and version in Package.swift"
           git push
 
-    #   - name: update latest version of SDK
-    #     run: |
-    #       cp -Rf $RUNNER_TEMP/artifact/sdk/* WoosmapGeofencing.xcframework/
-    #       sed -i "3 s/.*/  s.version = '${VERSION}'/" WoosmapGeofencing.podspec || exit 1
-    #     env:
-    #       VERSION: ${{ github.event.client_payload.v }}
-
-
-    #   - name: update Change Log
-    #     run: |
-    #       touch update.md
-    #       echo "## ${VERSION}" > update.md
-    #       cat  $RUNNER_TEMP/artifact/WHATSNEW.md >> update.md
-    #       echo "" >> update.md
-    #       cat  CHANGELOG.md >> update.md
-    #       rm CHANGELOG.md
-    #       mv update.md CHANGELOG.md
-    #     env:
-    #       VERSION: ${{ github.event.client_payload.v }}
-
-    #   - name: Check if branch is dirty
-    #     id: branchstatus
-    #     run: |
-    #         _isbranchUpdated=false
-    #         if [[ -n $(git status --porcelain) ]]; then
-    #           _isbranchUpdated=true
-    #         fi
-    #         echo "update=${_isbranchUpdated}" >> "$GITHUB_OUTPUT"
-          
-    #   - name: Commit and push changes
-    #     if: ${{ steps.branchstatus.outputs.update == 'true'}}
-    #     uses: devops-infra/action-commit-push@master
-    #     with:
-    #         github_token: ${{ secrets.GITHUB_TOKEN }}
-    #         commit_message: "Updated ${{ github.event.client_payload.v }}"
-    #         commit_prefix: "[AUTO]"
-    #         force: false
-      
-    #   - name: Create Git tag
-    #     run: |
-    #       git config user.name "github-actions"
-    #       git config user.email "github-actions@github.com"
-    #       git tag ${VERSION}
-    #       git push origin ${VERSION}
-    #     env:
-    #       VERSION: ${{ github.event.client_payload.v }}
+      - name: Create Git tag
+        if: github.ref == 'refs/heads/${{ github.event.repository.default_branch }}'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${VERSION}
+          git push origin ${VERSION}
+        env:
+          VERSION: ${{ github.event.client_payload.v }}
 
       
-    #   - name: Check
-    #     run: |
-    #       cat $RUNNER_TEMP/artifact/WHATSNEW.md
+      - name: Check
+        run: |
+          cat $RUNNER_TEMP/artifact/WHATSNEW.md
 
-    #   - name: Create GitHub Release
-    #     uses: softprops/action-gh-release@v2
-    #     with:
-    #       tag_name: ${{ github.event.client_payload.v }}
-    #       body_path: ${{ runner.temp }}/artifact/WHATSNEW.md
-    #     env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.client_payload.v }}
+          body_path: ${{ runner.temp }}/artifact/WHATSNEW.md
+          files: ${{ runner.temp }}/${{ env.FRAMEWORK_NAME }}.xcframework.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
