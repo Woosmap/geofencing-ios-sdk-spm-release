@@ -8,7 +8,7 @@ permissions:
 
 jobs:
 
-  pre-publish:
+  onSPM:
     runs-on: macos-latest
     steps:
       - name: Set framework and version
@@ -54,6 +54,12 @@ jobs:
 
           echo "Replacing checksum in Package.swift..."
           sed -E -i '' 's/let checksum = ".+"/let checksum = "'"$NEW_CHECKSUM"'"/' Package.swift
+        
+
+          echo "Updating  $FRAMEWORK_NAME.json..."
+          DISTRIBUTION_REPO=https://github.com/${{ github.repository }}
+          sed -E -i '' '1s/.*/\{\n\t"'$NEW_VERSION'\" : \"'${DISTRIBUTION_REPO////\\/}'\/releases\/download\/'$NEW_VERSION'\/$FRAMEWORK_NAME.xcframework.zip?raw=true\",/' $FRAMEWORK_NAME.json
+
 
       - name: Commit and push changes (optional)
         if: github.ref == 'refs/heads/${{ github.event.repository.default_branch }}'
@@ -61,7 +67,8 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add Package.swift
-          git commit -m "Update checksum and version in Package.swift"
+          git add $FRAMEWORK_NAME.json
+          git commit -m "Update checksum and version in Package.swift and $FRAMEWORK_NAME.json"
           git push
 
       - name: Create Git tag
