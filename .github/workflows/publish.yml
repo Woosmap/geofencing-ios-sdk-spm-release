@@ -1,0 +1,102 @@
+name: publish Geofencing SDK on SPM and carthage
+on:
+  repository_dispatch:
+    types: [spm]
+
+permissions:
+  contents: write
+
+jobs:
+
+  pre-publish:
+    runs-on: macos-latest
+    steps:
+
+      - name: Download artifact zip
+        run: |
+          curl -L -H "Authorization: token ${{ secrets.WOOSMAP_GITHUB_TOKEN }}" \
+            -o $RUNNER_TEMP/artifact.zip \
+            https://api.github.com/repos/Woosmap/geofencing-enterprise-ios-sdk/actions/artifacts/${{ github.event.client_payload.artifact_id }}/zip
+
+          curl -L -H "Authorization: token ${{ secrets.WOOSMAP_GITHUB_TOKEN }}" \
+              -o $RUNNER_TEMP/WoosmapGeofencing.xcframework.zip \
+              https://api.github.com/repos/Woosmap/geofencing-enterprise-ios-sdk/actions/artifacts/${{ github.event.client_payload.sdk_artifact_id }}/zip
+
+      - name: Unzip artifact
+        run: |
+          unzip $RUNNER_TEMP/artifact.zip -d $RUNNER_TEMP/artifact
+          unzip $RUNNER_TEMP/WoosmapGeofencing.xcframework.zip -d $RUNNER_TEMP/artifact/sdk
+  
+      - name: Calculate checksum
+        id: checksum
+        run: |
+          echo "Calculating checksum..."
+          NEW_CHECKSUM=$(swift package compute-checksum $RUNNER_TEMP/WoosmapGeofencing.xcframework.zip)
+          echo "NEW_CHECKSUM=$NEW_CHECKSUM" >> $GITHUB_ENV
+          echo "New checksum is $NEW_CHECKSUM"
+
+      - name: Checkout default branch (dynamic)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+    #   - name: update latest version of SDK
+    #     run: |
+    #       cp -Rf $RUNNER_TEMP/artifact/sdk/* WoosmapGeofencing.xcframework/
+    #       sed -i "3 s/.*/  s.version = '${VERSION}'/" WoosmapGeofencing.podspec || exit 1
+    #     env:
+    #       VERSION: ${{ github.event.client_payload.v }}
+
+
+    #   - name: update Change Log
+    #     run: |
+    #       touch update.md
+    #       echo "## ${VERSION}" > update.md
+    #       cat  $RUNNER_TEMP/artifact/WHATSNEW.md >> update.md
+    #       echo "" >> update.md
+    #       cat  CHANGELOG.md >> update.md
+    #       rm CHANGELOG.md
+    #       mv update.md CHANGELOG.md
+    #     env:
+    #       VERSION: ${{ github.event.client_payload.v }}
+
+    #   - name: Check if branch is dirty
+    #     id: branchstatus
+    #     run: |
+    #         _isbranchUpdated=false
+    #         if [[ -n $(git status --porcelain) ]]; then
+    #           _isbranchUpdated=true
+    #         fi
+    #         echo "update=${_isbranchUpdated}" >> "$GITHUB_OUTPUT"
+          
+    #   - name: Commit and push changes
+    #     if: ${{ steps.branchstatus.outputs.update == 'true'}}
+    #     uses: devops-infra/action-commit-push@master
+    #     with:
+    #         github_token: ${{ secrets.GITHUB_TOKEN }}
+    #         commit_message: "Updated ${{ github.event.client_payload.v }}"
+    #         commit_prefix: "[AUTO]"
+    #         force: false
+      
+    #   - name: Create Git tag
+    #     run: |
+    #       git config user.name "github-actions"
+    #       git config user.email "github-actions@github.com"
+    #       git tag ${VERSION}
+    #       git push origin ${VERSION}
+    #     env:
+    #       VERSION: ${{ github.event.client_payload.v }}
+
+      
+    #   - name: Check
+    #     run: |
+    #       cat $RUNNER_TEMP/artifact/WHATSNEW.md
+
+    #   - name: Create GitHub Release
+    #     uses: softprops/action-gh-release@v2
+    #     with:
+    #       tag_name: ${{ github.event.client_payload.v }}
+    #       body_path: ${{ runner.temp }}/artifact/WHATSNEW.md
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
