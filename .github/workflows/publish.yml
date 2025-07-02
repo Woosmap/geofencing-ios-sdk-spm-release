@@ -58,7 +58,7 @@ jobs:
 
           echo "Updating  $FRAMEWORK_NAME.json..."
           DISTRIBUTION_REPO=https://github.com/${{ github.repository }}
-          sed -E -i '' '1s/.*/\{\n\t"'$NEW_VERSION'\" : \"'${DISTRIBUTION_REPO////\\/}'\/releases\/download\/'$NEW_VERSION'\/${FRAMEWORK_NAME}.xcframework.zip?raw=true\",/' $FRAMEWORK_NAME.json
+          sed -E -i '' '1s/.*/\{\n\t"'$NEW_VERSION'\" : \"'${DISTRIBUTION_REPO////\\/}'\/releases\/download\/'$NEW_VERSION'\/${{ env.FRAMEWORK_NAME }}.xcframework.zip?raw=true\",/' $FRAMEWORK_NAME.json
 
 
       - name: Commit and push changes (optional)
