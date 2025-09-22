@@ -26,10 +26,13 @@ jobs:
               -o $RUNNER_TEMP/$FRAMEWORK_NAME.xcframework.zip \
               https://api.github.com/repos/Woosmap/geofencing-enterprise-ios-sdk/actions/artifacts/${{ github.event.client_payload.sdk_artifact_id }}/zip
 
-      - name: Unzip artifact
+      - name: Unzip artifact and restructure
         run: |
           unzip $RUNNER_TEMP/artifact.zip -d $RUNNER_TEMP/artifact
-          unzip $RUNNER_TEMP/$FRAMEWORK_NAME.xcframework.zip -d $RUNNER_TEMP/artifact/$FRAMEWORK_NAME
+          unzip $RUNNER_TEMP/$FRAMEWORK_NAME.xcframework.zip -d $RUNNER_TEMP/artifact/$FRAMEWORK_NAME.xcframework
+          cd $RUNNER_TEMP/artifact
+          rm $RUNNER_TEMP/$FRAMEWORK_NAME.xcframework.zip
+          zip -r $RUNNER_TEMP/$FRAMEWORK_NAME.xcframework.zip $FRAMEWORK_NAME.xcframework
   
       - name: Calculate checksum
         id: checksum
