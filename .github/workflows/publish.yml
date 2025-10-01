@@ -56,7 +56,7 @@ jobs:
           sed -E -i '' 's/let version = ".+"/let version = "'"$NEW_VERSION"'"/' Package.swift
 
           echo "Replacing checksum in Package.swift..."
-          sed -E -i '' 's/let checksum = ".+"/let checksum = "'"$NEW_CHECKSUM"'"/' Package.swift
+          sed -E -i '' 's/let checksum = ".*"/let checksum = "'"$NEW_CHECKSUM"'"/' Package.swift
         
 
           echo "Updating  $FRAMEWORK_NAME.json..."
