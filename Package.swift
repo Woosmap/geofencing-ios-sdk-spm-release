@@ -10,7 +10,7 @@ let checksum = "e8d7509cef79224b6d9387cc42c85a2f3446ee7b6c82b6149dcd704ef99a4ccb
 let package = Package(
     name: moduleName,
     platforms: [
-        .iOS(.v13) //, .macCatalyst(.v15), .macOS(.v10_15)
+        .iOS(.v15) 
     ],
     products: [
         .library(
