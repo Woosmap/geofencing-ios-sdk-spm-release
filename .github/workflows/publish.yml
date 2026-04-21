@@ -33,7 +33,7 @@ jobs:
               -o $RUNNER_TEMP/$FRAMEWORK_NAME.xcframework.zip \
               https://api.github.com/repos/Woosmap/geofencing-enterprise-ios-sdk/actions/artifacts/${{ github.event.client_payload.sdk_artifact_id }}/zip
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ secrets.WOOSMAP_GITHUB_TOKEN }}
 
       - name: Unzip artifact and restructure
         run: |
