@@ -54,7 +54,7 @@ jobs:
           ARCHIVE: ${{ runner.temp }}/${{ env.FRAMEWORK_NAME }}.xcframework.zip
 
       - name: Checkout default branch (dynamic)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.repository.default_branch }}
           token: ${{ steps.app-token.outputs.token }}
